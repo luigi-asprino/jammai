@@ -1,0 +1,219 @@
+<instance format="XCSP3" type="CSP">
+  <variables>
+    <array id="main_melody" note="For each track role we have an array of variables of number_of_samples_per_track size - The domain of the variables is the set of samples with the corresponding track_role (actually the identifiers of the samples)" size="[4][2404]"> 0 1 </array>
+    <array id="main_melody_repetitions" note="main_melody_repetitions[i] is the number of times the sample must be repeated in a sample" size="[4][2404]"> 0 1 2 </array>
+    <array id="accompaniment" size="[4][2016]"> 0 1 </array>
+    <array id="accompaniment_repetitions" size="[4][2016]"> 0 1 2 </array>
+    <array id="riff" size="[4][1022]"> 0 1 </array>
+    <array id="riff_repetitions" size="[4][1022]"> 0 1 2 </array>
+    <array id="pad" size="[4][1635]"> 0 1 </array>
+    <array id="pad_repetitions" size="[4][1635]"> 0 1 2 </array>
+    <array id="sub_melody" size="[4][1819]"> 0 1 </array>
+    <array id="sub_melody_repetitions" size="[4][1819]"> 0 1 2 </array>
+    <array id="bass" size="[4][403]"> 0 1 </array>
+    <array id="bass_repetitions" size="[4][403]"> 0 1 2 </array>
+    <array id="aux_gb" note="aux_gb[i] is the ith auxiliary variable having been automatically introduced" size="[48]">
+      <domain for="aux_gb[0] aux_gb[6] aux_gb[12] aux_gb[18]"> 0..24 </domain>
+      <domain for="aux_gb[1..2] aux_gb[5] aux_gb[7..8] aux_gb[11] aux_gb[13..14] aux_gb[17] aux_gb[19..20] aux_gb[23]"> 0..32 </domain>
+      <domain for="aux_gb[3] aux_gb[9] aux_gb[15] aux_gb[21]"> 0..20 </domain>
+      <domain for="aux_gb[4] aux_gb[10] aux_gb[16] aux_gb[22]"> 0..28 </domain>
+      <domain for="aux_gb[24..31]"> 0..82 </domain>
+      <domain for="aux_gb[32..35] aux_gb[40..43]"> 0..102 </domain>
+      <domain for="aux_gb[36..39]"> 0..90 </domain>
+      <domain for="aux_gb[44..47]"> 0..89 </domain>
+    </array>
+  </variables>
+  <constraints>
+    <group note="Exactly 1 sample is chose for each track segment (possibly the padding)">
+      <sum>
+        <list> %... </list>
+        <condition> (eq,1) </condition>
+      </sum>
+      <args> main_melody[0][] </args>
+      <args> main_melody[1][] </args>
+      <args> main_melody[2][] </args>
+      <args> main_melody[3][] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <condition> (eq,1) </condition>
+      </sum>
+      <args> accompaniment[0][] </args>
+      <args> accompaniment[1][] </args>
+      <args> accompaniment[2][] </args>
+      <args> accompaniment[3][] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <condition> (eq,1) </condition>
+      </sum>
+      <args> riff[0][] </args>
+      <args> riff[1][] </args>
+      <args> riff[2][] </args>
+      <args> riff[3][] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <condition> (eq,1) </condition>
+      </sum>
+      <args> bass[0][] </args>
+      <args> bass[1][] </args>
+      <args> bass[2][] </args>
+      <args> bass[3][] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <condition> (eq,1) </condition>
+      </sum>
+      <args> sub_melody[0][] </args>
+      <args> sub_melody[1][] </args>
+      <args> sub_melody[2][] </args>
+      <args> sub_melody[3][] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <condition> (eq,1) </condition>
+      </sum>
+      <args> pad[0][] </args>
+      <args> pad[1][] </args>
+      <args> pad[2][] </args>
+      <args> pad[3][] </args>
+    </group>
+    <group note="Matching the number of measures in each track segment">
+      <allEqual> %... </allEqual>
+      <args> aux_gb[0..5] </args>
+      <args> aux_gb[6..11] </args>
+      <args> aux_gb[12..17] </args>
+      <args> aux_gb[18..23] </args>
+    </group>
+    <allEqual note="Matching instruments on the same track"> aux_gb[24..27] </allEqual>
+    <allEqual> aux_gb[28..31] </allEqual>
+    <allEqual> aux_gb[32..35] </allEqual>
+    <allEqual> aux_gb[36..39] </allEqual>
+    <allEqual> aux_gb[40..43] </allEqual>
+    <allEqual> aux_gb[44..47] </allEqual>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 8 4 4 8 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[0] main_melody[0][0..3] </args>
+      <args> aux_gb[6] main_melody[1][0..3] </args>
+      <args> aux_gb[12] main_melody[2][0..3] </args>
+      <args> aux_gb[18] main_melody[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 8x4 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[1] accompaniment[0][0..3] </args>
+      <args> aux_gb[2] riff[0][0..3] </args>
+      <args> aux_gb[5] bass[0][0..3] </args>
+      <args> aux_gb[7] accompaniment[1][0..3] </args>
+      <args> aux_gb[8] riff[1][0..3] </args>
+      <args> aux_gb[11] bass[1][0..3] </args>
+      <args> aux_gb[13] accompaniment[2][0..3] </args>
+      <args> aux_gb[14] riff[2][0..3] </args>
+      <args> aux_gb[17] bass[2][0..3] </args>
+      <args> aux_gb[19] accompaniment[3][0..3] </args>
+      <args> aux_gb[20] riff[3][0..3] </args>
+      <args> aux_gb[23] bass[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 8 4x3 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[3] pad[0][0..3] </args>
+      <args> aux_gb[9] pad[1][0..3] </args>
+      <args> aux_gb[15] pad[2][0..3] </args>
+      <args> aux_gb[21] pad[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 4 8x3 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[4] sub_melody[0][0..3] </args>
+      <args> aux_gb[10] sub_melody[1][0..3] </args>
+      <args> aux_gb[16] sub_melody[2][0..3] </args>
+      <args> aux_gb[22] sub_melody[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 24x3 10 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[24] main_melody[0][0..3] </args>
+      <args> aux_gb[25] main_melody[1][0..3] </args>
+      <args> aux_gb[26] main_melody[2][0..3] </args>
+      <args> aux_gb[27] main_melody[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 17 24 24 17 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[28] accompaniment[0][0..3] </args>
+      <args> aux_gb[29] accompaniment[1][0..3] </args>
+      <args> aux_gb[30] accompaniment[2][0..3] </args>
+      <args> aux_gb[31] accompaniment[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 26 24 26 26 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[32] riff[0][0..3] </args>
+      <args> aux_gb[33] riff[1][0..3] </args>
+      <args> aux_gb[34] riff[2][0..3] </args>
+      <args> aux_gb[35] riff[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 32 17 17 24 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[36] pad[0][0..3] </args>
+      <args> aux_gb[37] pad[1][0..3] </args>
+      <args> aux_gb[38] pad[2][0..3] </args>
+      <args> aux_gb[39] pad[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 36 22x3 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[40] sub_melody[0][0..3] </args>
+      <args> aux_gb[41] sub_melody[1][0..3] </args>
+      <args> aux_gb[42] sub_melody[2][0..3] </args>
+      <args> aux_gb[43] sub_melody[3][0..3] </args>
+    </group>
+    <group>
+      <sum>
+        <list> %... </list>
+        <coeffs> 17 24x3 </coeffs>
+        <condition> (eq,%0) </condition>
+      </sum>
+      <args> aux_gb[44] bass[0][0..3] </args>
+      <args> aux_gb[45] bass[1][0..3] </args>
+      <args> aux_gb[46] bass[2][0..3] </args>
+      <args> aux_gb[47] bass[3][0..3] </args>
+    </group>
+  </constraints>
+</instance>

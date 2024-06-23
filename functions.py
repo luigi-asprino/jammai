@@ -20,8 +20,8 @@ def get_num_measures_array(df, ids):
         result[index] = int(df[df["id"]==commu_id].num_measures)
     return result
 
-def get_instrument_array(df, ids):
+def get_instrument_array(df, ids, instruments):
     result = [None] * len(ids)
     for index, commu_id in enumerate(ids):
-        result[index] = to_inst_id(str(df[df["id"]==commu_id].inst.values[0]))
+        result[index] = to_inst_id(instruments, str(df[df["id"]==commu_id].inst.values[0]))
     return result
